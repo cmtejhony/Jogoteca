@@ -1,0 +1,24 @@
+# Ambiente virtual
+venv/
+
+# Bytecode do Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Arquivos de configuração ou segredos (ex: variáveis de ambiente)
+*.env
+*.env.*
+
+# Pasta de uploads (caso as imagens sejam geradas ou enviadas pelo usuário)
+uploads/
+# Exceto capa padrão, se quiser manter no repo
+!uploads/capa_padrao.jpg
+
+# Arquivos de log
+*.log
+
+# Arquivos do sistema
+.DS_Store
+Thumbs.db
