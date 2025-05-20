@@ -1,5 +1,6 @@
 import mysql.connector
 from mysql.connector import errorcode
+from flask_bcrypt import generate_password_hash
 import sys
 
 print("Conectando...")
@@ -22,7 +23,6 @@ cursor.execute("DROP DATABASE IF EXISTS `jogoteca`;")
 cursor.execute("CREATE DATABASE `jogoteca`;")
 cursor.execute("USE `jogoteca`;")
 
-# criando tabelas
 TABLES = {}
 TABLES['Jogos'] = ('''
     CREATE TABLE `jogos` (
@@ -54,12 +54,11 @@ for tabela_nome in TABLES:
     else:
         print('OK')
 
-# inserindo usuarios
 usuario_sql = 'INSERT INTO usuarios (nome, nickname, senha) VALUES (%s, %s, %s)'
 usuarios = [
-    ("João Flach", "jhony", "@#Joao"),
-    ("Camila Ferreira", "Mila", "paozinho"),
-    ("Bruno Divino", "BD", "alohomora")
+    ("João Flach", "jhony", generate_password_hash("@#Joao").decode("utf-8")),
+    ("Bruno Divino", "BD", generate_password_hash("alohomora").decode("utf-8")),
+    ("Camila Ferreira", "Mila", generate_password_hash("paozinho").decode("utf-8"))
 ]
 cursor.executemany(usuario_sql, usuarios)
 
@@ -68,7 +67,6 @@ print(' -------------  Usuários:  -------------')
 for user in cursor.fetchall():
     print(user[1])
 
-# inserindo jogos
 jogos_sql = 'INSERT INTO jogos (nome, categoria, console) VALUES (%s, %s, %s)'
 jogos = [
     ('Tetris', 'Puzzle', 'Atari'),
@@ -85,7 +83,6 @@ print(' -------------  Jogos:  -------------')
 for jogo in cursor.fetchall():
     print(jogo[1])
 
-# commitando alterações
 conn.commit()
 cursor.close()
 conn.close()
